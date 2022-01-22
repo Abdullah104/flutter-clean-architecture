@@ -14,11 +14,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = ThemeData(
+      primaryColor: Colors.green.shade800,
+      primarySwatch: Colors.green,
+    );
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: Colors.green.shade800,
-        accentColor: Colors.green.shade600,
+      theme: _theme.copyWith(
+        colorScheme: _theme.colorScheme.copyWith(
+          secondary: Colors.green.shade600,
+        ),
       ),
       home: NumberTriviaRoute(),
     );
