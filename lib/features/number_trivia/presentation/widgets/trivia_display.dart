@@ -14,13 +14,13 @@ class TriviaDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return Container(
+    return SizedBox(
       height: size.height / 3,
       child: Column(
         children: [
           Text(
-            this.numberTrivia.number.toString(),
-            style: TextStyle(
+            numberTrivia.number.toString(),
+            style: const TextStyle(
               fontSize: 50,
               fontWeight: FontWeight.bold,
             ),
@@ -29,8 +29,8 @@ class TriviaDisplay extends StatelessWidget {
             child: Center(
               child: SingleChildScrollView(
                 child: Text(
-                  this.numberTrivia.text,
-                  style: TextStyle(
+                  numberTrivia.text,
+                  style: const TextStyle(
                     fontSize: 25,
                   ),
                   textAlign: TextAlign.center,

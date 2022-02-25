@@ -6,7 +6,7 @@ import 'injection_container.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  initializeServiceLocator().then((_) => runApp(MyApp()));
+  initializeServiceLocator().then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           secondary: Colors.green.shade600,
         ),
       ),
-      home: NumberTriviaRoute(),
+      home: const NumberTriviaRoute(),
     );
   }
 }

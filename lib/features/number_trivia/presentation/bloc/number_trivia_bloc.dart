@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-import 'package:clean_architecture/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
@@ -10,6 +7,7 @@ import '../../../../core/error/failures/failure.dart';
 import '../../../../core/error/failures/server_failure.dart';
 import '../../../../core/use_cases/use_case.dart';
 import '../../../../core/utilities/input_converter.dart';
+import '../../domain/entities/number_trivia.dart';
 import '../../domain/use_cases/get_concrete_number_trivia.dart';
 import '../../domain/use_cases/get_random_number_trivia.dart';
 import 'events/get_trivia_for_concrete_number.dart';
@@ -22,10 +20,10 @@ import 'state/number_trivia_retrieval_error_state.dart';
 part 'events/number_trivia_event.dart';
 part 'state/number_trivia_state.dart';
 
-const SERVER_FAILURE_MESSAGE = 'Server Failure';
-const CACHE_FAILURE_MESSAGE = 'Cache Failure';
+const serverFailureMessage = 'Server Failure';
+const cacheFailureMessage = 'Cache Failure';
 
-const INVALID_INPUT_FAILURE_MESSAGE =
+const invalidInputFailureMessage =
     'Invalid Input - The number must be a positive integer or zero.';
 
 class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
@@ -37,29 +35,28 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
     required GetConcreteNumberTrivia getConcreteNumberTrivia,
     required GetRandomNumberTrivia getRandomNumberTrivia,
     required InputConverter inputConverter,
-  })  : this._getConcreteNumberTrivia = getConcreteNumberTrivia,
-        this._getRandomNumberTrivia = getRandomNumberTrivia,
-        this._inputConverter = inputConverter,
+  })  : _getConcreteNumberTrivia = getConcreteNumberTrivia,
+        _getRandomNumberTrivia = getRandomNumberTrivia,
+        _inputConverter = inputConverter,
         super(InitialNumberTriviaState()) {
     on<GetTriviaForConcreteNumber>((event, emit) async {
       final stringNumber = event.numberString;
 
-      final inputEither =
-          this._inputConverter.stringToUnsignedInteger(stringNumber);
+      final inputEither = _inputConverter.stringToUnsignedInteger(stringNumber);
 
       await inputEither.fold(
         (_) async => emit(
-          NumberTriviaRetrievalErrorState(
-            message: INVALID_INPUT_FAILURE_MESSAGE,
+          const NumberTriviaRetrievalErrorState(
+            message: invalidInputFailureMessage,
           ),
         ),
         (parsedNumber) async {
           emit(LoadingNumberTriviaState());
 
           final params = Params(number: parsedNumber);
-          final either = await this._getConcreteNumberTrivia(params);
+          final either = await _getConcreteNumberTrivia(params);
 
-          this._emitNumberTriviaRetrievalResult(either, emit);
+          _emitNumberTriviaRetrievalResult(either, emit);
         },
       );
     });
@@ -67,9 +64,9 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
     on<GetTriviaForRandomNumber>((event, emit) async {
       emit(LoadingNumberTriviaState());
 
-      final either = await this._getRandomNumberTrivia(NoParams());
+      final either = await _getRandomNumberTrivia(NoParams());
 
-      this._emitNumberTriviaRetrievalResult(either, emit);
+      _emitNumberTriviaRetrievalResult(either, emit);
     });
   }
 
@@ -78,12 +75,12 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
 
     switch (failure.runtimeType) {
       case ServerFailure:
-        failureMessage = SERVER_FAILURE_MESSAGE;
+        failureMessage = serverFailureMessage;
 
         break;
 
       case CacheFailure:
-        failureMessage = CACHE_FAILURE_MESSAGE;
+        failureMessage = cacheFailureMessage;
 
         break;
 
@@ -104,7 +101,7 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
       (failure) async {
         emit(
           NumberTriviaRetrievalErrorState(
-            message: this._mapFailureToMessage(failure),
+            message: _mapFailureToMessage(failure),
           ),
         );
       },

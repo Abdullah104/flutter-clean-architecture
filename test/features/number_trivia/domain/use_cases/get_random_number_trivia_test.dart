@@ -10,7 +10,7 @@ class MockNumberTriviaRepository extends Mock
     implements NumberTriviaRepository {}
 
 void main() {
-  final testNumberTrivia = NumberTrivia(number: 1, text: 'test');
+  const testNumberTrivia = NumberTrivia(number: 1, text: 'test');
   GetRandomNumberTrivia? useCase;
   MockNumberTriviaRepository? mockNumberTriviaRepository;
 
@@ -22,15 +22,14 @@ void main() {
   test('should get trivia from the repository', () async {
     // Arrange
     when(() => mockNumberTriviaRepository!.getRandomNumberTrivia())
-        .thenAnswer((_) async => Right(testNumberTrivia));
+        .thenAnswer((_) async => const Right(testNumberTrivia));
 
     // Act
     final result = await useCase!(NoParams());
 
     // Assert
-    expect(result, equals(Right(testNumberTrivia)));
-    verify(
-        () => mockNumberTriviaRepository!.getRandomNumberTrivia());
+    expect(result, equals(const Right(testNumberTrivia)));
+    verify(() => mockNumberTriviaRepository!.getRandomNumberTrivia());
 
     verifyNoMoreInteractions(
       mockNumberTriviaRepository,

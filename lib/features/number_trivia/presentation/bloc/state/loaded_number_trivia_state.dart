@@ -4,10 +4,10 @@ import '../number_trivia_bloc.dart';
 class LoadedNumberTriviaState extends NumberTriviaState {
   final NumberTrivia trivia;
 
-  LoadedNumberTriviaState({
+  const LoadedNumberTriviaState({
     required this.trivia,
   });
 
   @override
-  List<Object> get props => [this.trivia];
+  List<Object> get props => [trivia];
 }

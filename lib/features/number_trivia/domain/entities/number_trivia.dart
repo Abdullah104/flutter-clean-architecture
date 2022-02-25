@@ -4,16 +4,16 @@ class NumberTrivia extends Equatable {
   final String _text;
   final int _number;
 
-  NumberTrivia({
+  const NumberTrivia({
     required int number,
     required String text,
-  })  : this._number = number,
-        this._text = text;
+  })  : _number = number,
+        _text = text;
 
-  String get text => this._text;
+  String get text => _text;
 
-  int get number => this._number;
+  int get number => _number;
 
   @override
-  List<Object?> get props => [this._text, this._number];
+  List<Object?> get props => [_text, _number];
 }

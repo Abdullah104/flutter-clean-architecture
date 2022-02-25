@@ -29,7 +29,7 @@ void main() {
 
   void setUpMockHttpClientSuccess200() {
     final trivia = fixture('trivia.json');
-    final responseCode = 200;
+    const responseCode = 200;
     final response = http.Response(trivia, responseCode);
 
     when(() => mockHttpClient.get(any(), headers: any(named: 'headers')))
@@ -37,8 +37,8 @@ void main() {
   }
 
   void setUpMockHttpClientFailure404() {
-    final responseBody = 'Something went wrong';
-    final statusCode = 404;
+    const responseBody = 'Something went wrong';
+    const statusCode = 404;
     final response = http.Response(responseBody, statusCode);
 
     when(() => mockHttpClient.get(any(), headers: any(named: 'headers')))
@@ -46,7 +46,7 @@ void main() {
   }
 
   group('getConcreteNumberTrivia', () {
-    final testNumber = 1;
+    const testNumber = 1;
 
     final testNumberTriviaModel =
         NumberTriviaModel.fromJson(json.decode(fixture('trivia.json')));
@@ -96,7 +96,7 @@ void main() {
         final call = dataSource.getConcreteNumberTrivia;
 
         // Assert
-        expect(() => call(testNumber), throwsA(TypeMatcher<ServerException>()));
+        expect(() => call(testNumber), throwsA(const TypeMatcher<ServerException>()));
       },
     );
   });
@@ -150,7 +150,7 @@ void main() {
         final call = dataSource.getRandomNumberTrivia;
 
         // Assert
-        expect(() => call(), throwsA(TypeMatcher<ServerException>()));
+        expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
       },
     );
   });

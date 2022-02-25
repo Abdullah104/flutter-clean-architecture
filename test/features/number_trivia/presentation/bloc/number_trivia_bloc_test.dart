@@ -25,16 +25,16 @@ class MockGetRandomNumberTrivia extends Mock implements GetRandomNumberTrivia {}
 class MockInputConverter extends Mock implements InputConverter {}
 
 void main() {
-  final testNumberString = '1';
-  final testParsedNumber = 1;
-  final testNumberTrivia = NumberTrivia(number: 1, text: 'test trivia');
+  const testNumberString = '1';
+  const testParsedNumber = 1;
+  const testNumberTrivia = NumberTrivia(number: 1, text: 'test trivia');
   NumberTriviaBloc? bloc;
   MockGetConcreteNumberTrivia? mockGetConcreteNumberTrivia;
   MockGetRandomNumberTrivia? mockGetRandomNumberTrivia;
   MockInputConverter? mockInputConverter;
 
   setUpAll(() {
-    registerFallbackValue(Params(number: testParsedNumber));
+    registerFallbackValue(const Params(number: testParsedNumber));
     registerFallbackValue(NoParams());
   });
 
@@ -52,17 +52,17 @@ void main() {
 
   void setUpMockInputConverterSuccess() {
     when(() => mockInputConverter!.stringToUnsignedInteger(any()))
-        .thenReturn(Right(testParsedNumber));
+        .thenReturn(const Right(testParsedNumber));
   }
 
   void setUpMockGetConcreteNumberTriviaSuccess() {
     when(() => mockGetConcreteNumberTrivia!(any()))
-        .thenAnswer((_) async => Right(testNumberTrivia));
+        .thenAnswer((_) async => const Right(testNumberTrivia));
   }
 
   void setUpMockGetRandomNumberTriviaSuccess() {
     when(() => mockGetRandomNumberTrivia!(any()))
-        .thenAnswer((_) async => Right(testNumberTrivia));
+        .thenAnswer((_) async => const Right(testNumberTrivia));
   }
 
   test('bloc initial state should be InitialNumberTriviaState', () {
@@ -79,7 +79,7 @@ void main() {
         setUpMockGetConcreteNumberTriviaSuccess();
 
         // Act
-        bloc!.add(GetTriviaForConcreteNumber(testNumberString));
+        bloc!.add(const GetTriviaForConcreteNumber(testNumberString));
 
         await untilCalled(
             () => mockInputConverter!.stringToUnsignedInteger(any()));
@@ -101,12 +101,12 @@ void main() {
         expectLater(
             bloc!.stream,
             emitsInOrder([
-              NumberTriviaRetrievalErrorState(
-                  message: INVALID_INPUT_FAILURE_MESSAGE)
+              const NumberTriviaRetrievalErrorState(
+                  message: invalidInputFailureMessage)
             ]));
 
         // Act
-        bloc!.add(GetTriviaForConcreteNumber(testNumberString));
+        bloc!.add(const GetTriviaForConcreteNumber(testNumberString));
       },
     );
 
@@ -116,12 +116,13 @@ void main() {
       setUpMockGetConcreteNumberTriviaSuccess();
 
       // act
-      bloc!.add(GetTriviaForConcreteNumber(testNumberString));
+      bloc!.add(const GetTriviaForConcreteNumber(testNumberString));
       await untilCalled(() => mockGetConcreteNumberTrivia!(any()));
 
       // // assert
       verify(
-        () => mockGetConcreteNumberTrivia!(Params(number: testParsedNumber)),
+        () => mockGetConcreteNumberTrivia!(
+            const Params(number: testParsedNumber)),
       );
     });
 
@@ -135,13 +136,13 @@ void main() {
         // assert later
         final expected = [
           LoadingNumberTriviaState(),
-          LoadedNumberTriviaState(trivia: testNumberTrivia),
+          const LoadedNumberTriviaState(trivia: testNumberTrivia),
         ];
 
         expectLater(bloc!.stream, emitsInOrder(expected));
 
         // act
-        bloc!.add(GetTriviaForConcreteNumber(testNumberString));
+        bloc!.add(const GetTriviaForConcreteNumber(testNumberString));
       },
     );
 
@@ -157,13 +158,13 @@ void main() {
         // assert later
         final expected = [
           LoadingNumberTriviaState(),
-          NumberTriviaRetrievalErrorState(message: SERVER_FAILURE_MESSAGE),
+          const NumberTriviaRetrievalErrorState(message: serverFailureMessage),
         ];
 
         expectLater(bloc!.stream, emitsInOrder(expected));
 
         // act
-        bloc!.add(GetTriviaForConcreteNumber(testNumberString));
+        bloc!.add(const GetTriviaForConcreteNumber(testNumberString));
       },
     );
     test(
@@ -178,13 +179,13 @@ void main() {
         // assert later
         final expected = [
           LoadingNumberTriviaState(),
-          NumberTriviaRetrievalErrorState(message: CACHE_FAILURE_MESSAGE),
+          const NumberTriviaRetrievalErrorState(message: cacheFailureMessage),
         ];
 
         expectLater(bloc!.stream, emitsInOrder(expected));
 
         // act
-        bloc!.add(GetTriviaForConcreteNumber(testNumberString));
+        bloc!.add(const GetTriviaForConcreteNumber(testNumberString));
       },
     );
   });
@@ -215,7 +216,7 @@ void main() {
         // assert later
         final expected = [
           LoadingNumberTriviaState(),
-          LoadedNumberTriviaState(trivia: testNumberTrivia),
+          const LoadedNumberTriviaState(trivia: testNumberTrivia),
         ];
 
         expectLater(bloc!.stream, emitsInOrder(expected));
@@ -237,7 +238,7 @@ void main() {
         // assert later
         final expected = [
           LoadingNumberTriviaState(),
-          NumberTriviaRetrievalErrorState(message: SERVER_FAILURE_MESSAGE),
+          const NumberTriviaRetrievalErrorState(message: serverFailureMessage),
         ];
 
         expectLater(bloc!.stream, emitsInOrder(expected));
@@ -258,7 +259,7 @@ void main() {
         // assert later
         final expected = [
           LoadingNumberTriviaState(),
-          NumberTriviaRetrievalErrorState(message: CACHE_FAILURE_MESSAGE),
+          const NumberTriviaRetrievalErrorState(message: cacheFailureMessage),
         ];
 
         expectLater(bloc!.stream, emitsInOrder(expected));

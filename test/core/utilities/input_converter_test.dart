@@ -15,19 +15,19 @@ void main() {
       'should return an integer when the string represents an unsigned integer',
       () {
         // Arrange
-        final str = '123';
+        const str = '123';
 
         // Act
         final result = inputConverter.stringToUnsignedInteger(str);
 
         // Assert
-        expect(result, equals(Right(123)));
+        expect(result, equals(const Right(123)));
       },
     );
 
     test('should return a failure when the string is not an integer', () {
       // Arrange
-      final str = 'abc';
+      const str = 'abc';
 
       // Act
       final result = inputConverter.stringToUnsignedInteger(str);
@@ -38,7 +38,7 @@ void main() {
 
     test('should return a failure when the string is a negative integer', () {
       // Arrange
-      final str = '-123';
+      const str = '-123';
 
       // Act
       final result = inputConverter.stringToUnsignedInteger(str);

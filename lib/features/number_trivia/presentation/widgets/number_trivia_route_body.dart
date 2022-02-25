@@ -19,11 +19,11 @@ class NumberTriviaRouteBody extends StatelessWidget {
     return BlocProvider(
       create: (_) => serviceLocator.get<NumberTriviaBloc>(),
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         alignment: Alignment.center,
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             BlocBuilder<NumberTriviaBloc, NumberTriviaState>(
@@ -31,11 +31,11 @@ class NumberTriviaRouteBody extends StatelessWidget {
                 late final Widget widget;
 
                 if (state is InitialNumberTriviaState) {
-                  widget = MessageDisplay(
+                  widget = const MessageDisplay(
                     message: 'Start searching!',
                   );
                 } else if (state is LoadingNumberTriviaState) {
-                  widget = LoadingWidget();
+                  widget = const LoadingWidget();
                 } else if (state is LoadedNumberTriviaState) {
                   widget = TriviaDisplay(
                     numberTrivia: state.trivia,
@@ -48,10 +48,10 @@ class NumberTriviaRouteBody extends StatelessWidget {
                 return widget;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            TriviaControl(),
+            const TriviaControl(),
           ],
         ),
       ),

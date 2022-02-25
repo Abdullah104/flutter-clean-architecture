@@ -9,11 +9,11 @@ class GetRandomNumberTrivia implements UseCase<NumberTrivia, NoParams> {
   final NumberTriviaRepository _numberTriviaRepository;
 
   GetRandomNumberTrivia(NumberTriviaRepository numberTriviaRepository)
-      : this._numberTriviaRepository = numberTriviaRepository;
+      : _numberTriviaRepository = numberTriviaRepository;
 
   @override
   Future<Either<Failure, NumberTrivia>> call(NoParams noParams) async {
-    final trivia = await this._numberTriviaRepository.getRandomNumberTrivia();
+    final trivia = await _numberTriviaRepository.getRandomNumberTrivia();
 
     return trivia;
   }

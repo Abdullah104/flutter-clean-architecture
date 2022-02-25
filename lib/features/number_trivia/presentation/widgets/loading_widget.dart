@@ -12,7 +12,7 @@ class LoadingWidget extends StatelessWidget {
     return Container(
       height: size.height / 3,
       alignment: Alignment.center,
-      child: CircularProgressIndicator.adaptive(),
+      child: const CircularProgressIndicator.adaptive(),
     );
   }
 }

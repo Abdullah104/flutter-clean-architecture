@@ -5,7 +5,7 @@ import 'package:clean_architecture/features/number_trivia/data/data_sources/loca
 import 'package:clean_architecture/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const CACHED_NUMBER_TRIVIA = 'CACHED_NUMBER_TRIVIA';
+const cachedNumberTrivia = 'CACHED_NUMBER_TRIVIA';
 
 class NumberTriviaLocalDataSourceImplementation
     implements NumberTriviaLocalDataSource {
@@ -13,12 +13,12 @@ class NumberTriviaLocalDataSourceImplementation
 
   NumberTriviaLocalDataSourceImplementation({
     required SharedPreferences sharedPreferences,
-  }) : this._sharedPreferences = sharedPreferences;
+  }) : _sharedPreferences = sharedPreferences;
 
   @override
   Future<NumberTriviaModel> getLastNumberTrivia() {
     final numberTriviaString =
-        this._sharedPreferences.getString(CACHED_NUMBER_TRIVIA);
+        _sharedPreferences.getString(cachedNumberTrivia);
 
     if (numberTriviaString == null) {
       throw CacheException();
@@ -36,6 +36,6 @@ class NumberTriviaLocalDataSourceImplementation
     final triviaMap = triviaToCache.toJson();
     final triviaJson = json.encode(triviaMap);
 
-    this._sharedPreferences.setString(CACHED_NUMBER_TRIVIA, triviaJson);
+    _sharedPreferences.setString(cachedNumberTrivia, triviaJson);
   }
 }

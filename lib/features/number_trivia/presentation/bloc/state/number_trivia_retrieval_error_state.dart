@@ -3,12 +3,12 @@ import '../number_trivia_bloc.dart';
 class NumberTriviaRetrievalErrorState extends NumberTriviaState {
   final String _message;
 
-  NumberTriviaRetrievalErrorState({
+  const NumberTriviaRetrievalErrorState({
     required String message,
-  }) : this._message = message;
+  }) : _message = message;
 
-  String get message => this._message;
+  String get message => _message;
 
   @override
-  List<Object> get props => [this._message];
+  List<Object> get props => [_message];
 }

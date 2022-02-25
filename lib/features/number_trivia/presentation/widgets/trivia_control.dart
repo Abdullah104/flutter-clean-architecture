@@ -23,40 +23,40 @@ class _TriviaControlState extends State<TriviaControl> {
     return Column(
       children: [
         TextField(
-          controller: this.controller,
+          controller: controller,
           keyboardType: TextInputType.number,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             border: OutlineInputBorder(),
             hintText: 'Input a number',
           ),
           onChanged: (value) {
-            this.input = value;
+            input = value;
           },
           onSubmitted: (value) {
             dispatchConcrete();
           },
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Row(
           children: [
             Expanded(
               child: ElevatedButton(
-                child: Text('Search'),
+                child: const Text('Search'),
                 style: ElevatedButton.styleFrom(
                   primary: Theme.of(context).colorScheme.secondary,
                 ),
-                onPressed: this.dispatchConcrete,
+                onPressed: dispatchConcrete,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
               child: ElevatedButton(
-                child: Text('Get random trivia'),
-                onPressed: this.dispatchRandom,
+                child: const Text('Get random trivia'),
+                onPressed: dispatchRandom,
               ),
             ),
           ],
@@ -69,7 +69,7 @@ class _TriviaControlState extends State<TriviaControl> {
     controller.clear();
 
     BlocProvider.of<NumberTriviaBloc>(context)
-        .add(GetTriviaForConcreteNumber(this.input));
+        .add(GetTriviaForConcreteNumber(input));
   }
 
   void dispatchRandom() {

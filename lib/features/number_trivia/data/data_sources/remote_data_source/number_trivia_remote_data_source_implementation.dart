@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 import '../../models/number_trivia_model.dart';
 import 'number_trivia_remote_data_source.dart';
 
-const _API = 'http://numbersapi.com';
+const _api = 'http://numbersapi.com';
 
 class NumberTriviaRemoteDataSourceImplementation
     implements NumberTriviaRemoteDataSource {
@@ -14,15 +14,15 @@ class NumberTriviaRemoteDataSourceImplementation
 
   NumberTriviaRemoteDataSourceImplementation({
     required Client client,
-  }) : this._client = client;
+  }) : _client = client;
 
   @override
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number) =>
-      this._getTriviaFromUrl('$_API/$number');
+      _getTriviaFromUrl('$_api/$number');
 
   @override
   Future<NumberTriviaModel> getRandomNumberTrivia() =>
-      this._getTriviaFromUrl('$_API/random');
+      _getTriviaFromUrl('$_api/random');
 
   Future<NumberTriviaModel> _getTriviaFromUrl(String url) async {
     final uri = Uri.parse(url);
@@ -31,7 +31,7 @@ class NumberTriviaRemoteDataSourceImplementation
       'Content-Type': 'application/json',
     };
 
-    final response = await this._client.get(uri, headers: headers);
+    final response = await _client.get(uri, headers: headers);
     final responseBody = response.body;
     final responseCode = response.statusCode;
 

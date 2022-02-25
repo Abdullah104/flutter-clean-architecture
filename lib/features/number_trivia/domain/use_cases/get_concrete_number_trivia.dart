@@ -10,12 +10,12 @@ class GetConcreteNumberTrivia implements UseCase<NumberTrivia, Params> {
   late final NumberTriviaRepository _numberTriviaRepository;
 
   GetConcreteNumberTrivia(NumberTriviaRepository numberTriviaRepository)
-      : this._numberTriviaRepository = numberTriviaRepository;
+      : _numberTriviaRepository = numberTriviaRepository;
 
+  @override
   Future<Either<Failure, NumberTrivia>> call(Params params) async {
-    final numberTrivia = await this
-        ._numberTriviaRepository
-        .getConcreteNumberTrivia(params.number);
+    final numberTrivia =
+        await _numberTriviaRepository.getConcreteNumberTrivia(params.number);
 
     return numberTrivia;
   }
@@ -24,9 +24,10 @@ class GetConcreteNumberTrivia implements UseCase<NumberTrivia, Params> {
 class Params extends Equatable {
   final int _number;
 
-  Params({required int number}) : this._number = number;
+  const Params({required int number}) : _number = number;
 
-  int get number => this._number;
+  int get number => _number;
 
-  List<Object?> get props => [this._number];
+  @override
+  List<Object?> get props => [_number];
 }

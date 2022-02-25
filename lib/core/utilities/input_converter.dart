@@ -8,7 +8,7 @@ class InputConverter {
     try {
       final parsedNumber = int.parse(numberString);
 
-      if (parsedNumber < 0) throw FormatException();
+      if (parsedNumber < 0) throw const FormatException();
 
       return Right(parsedNumber);
     } on FormatException {

@@ -12,7 +12,7 @@ import '../data_sources/local_data_source/number_trivia_local_data_source.dart';
 import '../data_sources/remote_data_source/number_trivia_remote_data_source.dart';
 import '../models/number_trivia_model.dart';
 
-typedef Future<NumberTriviaModel> _ConcreteOrRandomChooser();
+typedef _ConcreteOrRandomChooser = Future<NumberTriviaModel> Function();
 
 class NumberTriviaRepositoryImplementation implements NumberTriviaRepository {
   final NumberTriviaRemoteDataSource _numberTriviaRemoteDataSource;
@@ -23,31 +23,31 @@ class NumberTriviaRepositoryImplementation implements NumberTriviaRepository {
     required NumberTriviaRemoteDataSource remoteDataSource,
     required NumberTriviaLocalDataSource localDataSource,
     required NetworkInformation networkInformation,
-  })  : this._numberTriviaRemoteDataSource = remoteDataSource,
-        this._numberTriviaLocalDataSource = localDataSource,
-        this._networkInformation = networkInformation;
+  })  : _numberTriviaRemoteDataSource = remoteDataSource,
+        _numberTriviaLocalDataSource = localDataSource,
+        _networkInformation = networkInformation;
 
   @override
   Future<Either<Failure, NumberTrivia>> getConcreteNumberTrivia(
     int number,
   ) async =>
-      await this._getTrivia(() =>
-          this._numberTriviaRemoteDataSource.getConcreteNumberTrivia(number));
+      await _getTrivia(() =>
+          _numberTriviaRemoteDataSource.getConcreteNumberTrivia(number));
 
   @override
   Future<Either<Failure, NumberTrivia>> getRandomNumberTrivia() async =>
-      await this._getTrivia(
-          () => this._numberTriviaRemoteDataSource.getRandomNumberTrivia());
+      await _getTrivia(
+          () => _numberTriviaRemoteDataSource.getRandomNumberTrivia());
 
   Future<Either<Failure, NumberTrivia>> _getTrivia(
       _ConcreteOrRandomChooser getConcreteOrRandom) async {
-    final isConnected = await this._networkInformation.isConnected;
+    final isConnected = await _networkInformation.isConnected;
 
     if (isConnected) {
       try {
         final numberTrivia = await getConcreteOrRandom();
 
-        this._numberTriviaLocalDataSource.cacheNumberTrivia(numberTrivia);
+        _numberTriviaLocalDataSource.cacheNumberTrivia(numberTrivia);
 
         return Right(numberTrivia);
       } on ServerException {
@@ -58,7 +58,7 @@ class NumberTriviaRepositoryImplementation implements NumberTriviaRepository {
     } else {
       try {
         final numberTrivia =
-            await this._numberTriviaLocalDataSource.getLastNumberTrivia();
+            await _numberTriviaLocalDataSource.getLastNumberTrivia();
 
         return Right(numberTrivia);
       } on CacheException {

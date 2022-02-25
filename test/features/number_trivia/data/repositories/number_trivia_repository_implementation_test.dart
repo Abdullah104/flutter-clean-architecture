@@ -58,14 +58,14 @@ void main() {
   }
 
   group('getConcreteNumberTrivia', () {
-    final testNumber = 1;
+    const testNumber = 1;
 
-    final testNumberTriviaModel = NumberTriviaModel(
+    const testNumberTriviaModel = NumberTriviaModel(
       number: testNumber,
       text: 'test trivia',
     );
 
-    final NumberTrivia testNumberTrivia = testNumberTriviaModel;
+    const NumberTrivia testNumberTrivia = testNumberTriviaModel;
 
     test('should check if the device is online', () {
       // Arrange
@@ -105,7 +105,7 @@ void main() {
             () => mockRemoteDataSource.getConcreteNumberTrivia(testNumber),
           );
 
-          expect(result, equals(Right(testNumberTrivia)));
+          expect(result, equals(const Right(testNumberTrivia)));
         },
       );
 
@@ -169,7 +169,7 @@ void main() {
           // Assert
           verifyZeroInteractions(mockRemoteDataSource);
           verify(() => mockLocalDataSource.getLastNumberTrivia());
-          expect(result, Right(testNumberTrivia));
+          expect(result, const Right(testNumberTrivia));
         },
       );
 
@@ -193,12 +193,12 @@ void main() {
   });
 
   group('getRandomNumberTrivia', () {
-    final testNumberTriviaModel = NumberTriviaModel(
+    const testNumberTriviaModel = NumberTriviaModel(
       number: 123,
       text: 'test trivia',
     );
 
-    final NumberTrivia testNumberTrivia = testNumberTriviaModel;
+    const NumberTrivia testNumberTrivia = testNumberTriviaModel;
 
     test('should check if the device is online', () {
       // Arrange
@@ -238,7 +238,7 @@ void main() {
             () => mockRemoteDataSource.getRandomNumberTrivia(),
           );
 
-          expect(result, equals(Right(testNumberTrivia)));
+          expect(result, equals(const Right(testNumberTrivia)));
         },
       );
 
@@ -302,7 +302,7 @@ void main() {
           // Assert
           verifyZeroInteractions(mockRemoteDataSource);
           verify(() => mockLocalDataSource.getLastNumberTrivia());
-          expect(result, Right(testNumberTrivia));
+          expect(result, const Right(testNumberTrivia));
         },
       );
 

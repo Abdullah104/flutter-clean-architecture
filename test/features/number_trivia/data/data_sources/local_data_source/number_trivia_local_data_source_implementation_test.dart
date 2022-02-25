@@ -37,7 +37,7 @@ void main() {
         final result = await dataSource.getLastNumberTrivia();
 
         // Assert
-        verify(() => mockSharedPreferences.getString(CACHED_NUMBER_TRIVIA));
+        verify(() => mockSharedPreferences.getString(cachedNumberTrivia));
         expect(result, equals(testNumberTriviaModel));
       },
     );
@@ -52,13 +52,13 @@ void main() {
         final call = dataSource.getLastNumberTrivia;
 
         // Assert
-        expect(() => call(), throwsA(TypeMatcher<CacheException>()));
+        expect(() => call(), throwsA(const TypeMatcher<CacheException>()));
       },
     );
   });
 
   group('cacheNumberTrivia', () {
-    final testNumberTriviaModel = NumberTriviaModel(
+    const testNumberTriviaModel = NumberTriviaModel(
       number: 1,
       text: 'test trivia',
     );
@@ -67,7 +67,7 @@ void main() {
       // Arrange
       when(() => mockSharedPreferences.setString(any(), any()))
           .thenAnswer((_) async => true);
-          
+
       // Act
       dataSource.cacheNumberTrivia(testNumberTriviaModel);
 
@@ -75,7 +75,7 @@ void main() {
       final expectedJsonString = json.encode(testNumberTriviaModel.toJson());
 
       verify(() => mockSharedPreferences.setString(
-            CACHED_NUMBER_TRIVIA,
+            cachedNumberTrivia,
             expectedJsonString,
           ));
     });

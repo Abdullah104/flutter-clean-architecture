@@ -6,7 +6,7 @@ class MessageDisplay extends StatelessWidget {
   const MessageDisplay({
     Key? key,
     required String message,
-  })  : this._message = message,
+  })  : _message = message,
         super(key: key);
 
   @override
@@ -18,8 +18,8 @@ class MessageDisplay extends StatelessWidget {
       alignment: Alignment.center,
       child: SingleChildScrollView(
         child: Text(
-          this._message,
-          style: TextStyle(
+          _message,
+          style: const TextStyle(
             fontSize: 25,
           ),
           textAlign: TextAlign.center,

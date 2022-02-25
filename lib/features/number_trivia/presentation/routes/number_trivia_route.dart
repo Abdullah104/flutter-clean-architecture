@@ -10,9 +10,9 @@ class NumberTriviaRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Number Trivia'),
+        title: const Text('Number Trivia'),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: NumberTriviaRouteBody(),
       ),
     );
