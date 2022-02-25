@@ -39,35 +39,45 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
         _getRandomNumberTrivia = getRandomNumberTrivia,
         _inputConverter = inputConverter,
         super(InitialNumberTriviaState()) {
-    on<GetTriviaForConcreteNumber>((event, emit) async {
-      final stringNumber = event.numberString;
+    on<GetTriviaForConcreteNumber>(_concreteTriviaEventHandler);
 
-      final inputEither = _inputConverter.stringToUnsignedInteger(stringNumber);
+    on<GetTriviaForRandomNumber>(_randomTriviaEventHandler);
+  }
 
-      await inputEither.fold(
-        (_) async => emit(
-          const NumberTriviaRetrievalErrorState(
-            message: invalidInputFailureMessage,
-          ),
+  Future<void> _concreteTriviaEventHandler(
+    GetTriviaForConcreteNumber event,
+    Emitter<NumberTriviaState> emit,
+  ) async {
+    final stringNumber = event.numberString;
+
+    final inputEither = _inputConverter.stringToUnsignedInteger(stringNumber);
+
+    await inputEither.fold(
+      (_) async => emit(
+        const NumberTriviaRetrievalErrorState(
+          message: invalidInputFailureMessage,
         ),
-        (parsedNumber) async {
-          emit(LoadingNumberTriviaState());
+      ),
+      (parsedNumber) async {
+        emit(LoadingNumberTriviaState());
 
-          final params = Params(number: parsedNumber);
-          final either = await _getConcreteNumberTrivia(params);
+        final params = Params(number: parsedNumber);
+        final either = await _getConcreteNumberTrivia(params);
 
-          _emitNumberTriviaRetrievalResult(either, emit);
-        },
-      );
-    });
+        _emitNumberTriviaRetrievalResult(either, emit);
+      },
+    );
+  }
 
-    on<GetTriviaForRandomNumber>((event, emit) async {
-      emit(LoadingNumberTriviaState());
+  Future<void> _randomTriviaEventHandler(
+    GetTriviaForRandomNumber event,
+    Emitter<NumberTriviaState> emit,
+  ) async {
+    emit(LoadingNumberTriviaState());
 
-      final either = await _getRandomNumberTrivia(NoParams());
+    final either = await _getRandomNumberTrivia(NoParams());
 
-      _emitNumberTriviaRetrievalResult(either, emit);
-    });
+    _emitNumberTriviaRetrievalResult(either, emit);
   }
 
   String _mapFailureToMessage(Failure failure) {
