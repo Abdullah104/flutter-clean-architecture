@@ -40,41 +40,37 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
   })  : this._getConcreteNumberTrivia = getConcreteNumberTrivia,
         this._getRandomNumberTrivia = getRandomNumberTrivia,
         this._inputConverter = inputConverter,
-        super(InitialNumberTriviaState());
-
-  @override
-  Stream<NumberTriviaState> mapEventToState(
-    NumberTriviaEvent event,
-  ) async* {
-    if (event is GetTriviaForConcreteNumber) {
+        super(InitialNumberTriviaState()) {
+    on<GetTriviaForConcreteNumber>((event, emit) async {
       final stringNumber = event.numberString;
 
       final inputEither =
           this._inputConverter.stringToUnsignedInteger(stringNumber);
 
-      yield* inputEither.fold(
-        (_) async* {
-          yield NumberTriviaRetrievalErrorState(
+      await inputEither.fold(
+        (_) async => emit(
+          NumberTriviaRetrievalErrorState(
             message: INVALID_INPUT_FAILURE_MESSAGE,
-          );
-        },
-        (parsedNumber) async* {
-          yield LoadingNumberTriviaState();
+          ),
+        ),
+        (parsedNumber) async {
+          emit(LoadingNumberTriviaState());
 
           final params = Params(number: parsedNumber);
           final either = await this._getConcreteNumberTrivia(params);
 
-          yield* this._emitNumberTriviaRetrievalResult(either);
+          this._emitNumberTriviaRetrievalResult(either, emit);
         },
       );
-    } else if (event is GetTriviaForRandomNumber) {
-      yield LoadingNumberTriviaState();
+    });
 
-      final params = NoParams();
-      final either = await this._getRandomNumberTrivia(params);
+    on<GetTriviaForRandomNumber>((event, emit) async {
+      emit(LoadingNumberTriviaState());
 
-      yield* this._emitNumberTriviaRetrievalResult(either);
-    }
+      final either = await this._getRandomNumberTrivia(NoParams());
+
+      this._emitNumberTriviaRetrievalResult(either, emit);
+    });
   }
 
   String _mapFailureToMessage(Failure failure) {
@@ -100,17 +96,24 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
     return failureMessage;
   }
 
-  Stream<NumberTriviaState> _emitNumberTriviaRetrievalResult(
+  void _emitNumberTriviaRetrievalResult(
     Either<Failure, NumberTrivia> either,
-  ) async* {
-    yield* either.fold(
-      (failure) async* {
-        yield NumberTriviaRetrievalErrorState(
-          message: this._mapFailureToMessage(failure),
+    Emitter<NumberTriviaState> emit,
+  ) async {
+    await either.fold(
+      (failure) async {
+        emit(
+          NumberTriviaRetrievalErrorState(
+            message: this._mapFailureToMessage(failure),
+          ),
         );
       },
-      (trivia) async* {
-        yield LoadedNumberTriviaState(trivia: trivia);
+      (trivia) async {
+        emit(
+          LoadedNumberTriviaState(
+            trivia: trivia,
+          ),
+        );
       },
     );
   }
