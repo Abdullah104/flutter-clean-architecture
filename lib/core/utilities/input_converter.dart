@@ -1,7 +1,7 @@
-import 'package:clean_architecture/core/error/failures/invalid_input_failure.dart';
 import 'package:dartz/dartz.dart';
 
 import '../error/failures/failure.dart';
+import '../error/failures/invalid_input_failure.dart';
 
 class InputConverter {
   Either<Failure, int> stringToUnsignedInteger(String numberString) {

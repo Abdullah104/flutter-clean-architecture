@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:clean_architecture/core/error/exceptions/server_exception.dart';
 import 'package:http/http.dart';
 
+import '../../../../../core/error/exceptions/server_exception.dart';
 import '../../models/number_trivia_model.dart';
 import 'number_trivia_remote_data_source.dart';
 
