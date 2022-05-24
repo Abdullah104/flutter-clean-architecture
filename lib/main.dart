@@ -14,15 +14,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _theme = ThemeData(
+    final theme = ThemeData(
       primaryColor: Colors.green.shade800,
       primarySwatch: Colors.green,
     );
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: _theme.copyWith(
-        colorScheme: _theme.colorScheme.copyWith(
+      theme: theme.copyWith(
+        colorScheme: theme.colorScheme.copyWith(
           secondary: Colors.green.shade600,
         ),
       ),

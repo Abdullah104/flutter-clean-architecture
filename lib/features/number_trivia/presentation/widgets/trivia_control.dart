@@ -11,7 +11,7 @@ class TriviaControl extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TriviaControlState createState() => _TriviaControlState();
+  State<TriviaControl> createState() => _TriviaControlState();
 }
 
 class _TriviaControlState extends State<TriviaControl> {
@@ -43,11 +43,11 @@ class _TriviaControlState extends State<TriviaControl> {
           children: [
             Expanded(
               child: ElevatedButton(
-                child: const Text('Search'),
                 style: ElevatedButton.styleFrom(
                   primary: Theme.of(context).colorScheme.secondary,
                 ),
                 onPressed: dispatchConcrete,
+                child: const Text('Search'),
               ),
             ),
             const SizedBox(
@@ -55,8 +55,8 @@ class _TriviaControlState extends State<TriviaControl> {
             ),
             Expanded(
               child: ElevatedButton(
-                child: const Text('Get random trivia'),
                 onPressed: dispatchRandom,
+                child: const Text('Get random trivia'),
               ),
             ),
           ],
