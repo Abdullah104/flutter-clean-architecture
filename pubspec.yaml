@@ -1,23 +1,21 @@
 name: clean_architecture
 description: A new Flutter project.
-
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
-
+publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.19.6 <3.0.0"
+  sdk: ">=3.0.3 <4.0.0"
 
 dependencies:
   dartz: ^0.10.1
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.1.2
-  get_it: ^7.3.0
-  http: ^0.13.6
+  flutter_bloc: ^8.1.3
+  get_it: ^7.6.0
+  http: ^1.0.0
   internet_connection_checker: ^1.0.0+1
-  shared_preferences: ^2.1.0
+  shared_preferences: ^2.1.1
 
 dev_dependencies:
   flutter_lints: ^2.0.1
